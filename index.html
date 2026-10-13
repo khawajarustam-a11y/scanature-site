@@ -3,59 +3,202 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Scanature scans, fills, signs and shares PDF documents on iPhone and iPad. Nothing is uploaded.">
-    <title>Scanature</title>
+    <meta name="description" content="Scanature scans, fills, signs and shares PDF documents on iPhone and iPad. Everything stays on your device.">
+    <meta name="theme-color" content="#0b1220">
+    <meta property="og:title" content="Scanature — paperwork, finished where you stand">
+    <meta property="og:description" content="Scan it, fill it in, sign it, send it. Everything stays on your device.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scanature.com/">
+    <title>Scanature — Scan &amp; Sign PDF</title>
     <style>
-      :root { color-scheme: light dark; }
-      body {
-        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        margin: 0;
-        color: CanvasText;
-        background: Canvas;
+      :root {
+        color-scheme: light dark;
+        --accent: #1677e8;
+        --ink: CanvasText;
+        --muted: GrayText;
+        --line: color-mix(in srgb, CanvasText 14%, transparent);
+        --panel: color-mix(in srgb, CanvasText 4%, Canvas);
       }
-      main { max-width: 720px; margin: 0 auto; padding: 72px 24px 72px; }
-      h1 { font-size: 44px; line-height: 1.1; margin: 0 0 12px; letter-spacing: -1px; }
-      h2 { margin-top: 44px; font-size: 23px; }
-      a { color: #1677e8; }
-      .intro { color: GrayText; font-size: 21px; margin-top: 0; }
-      ul { padding-left: 20px; }
-      li { margin-bottom: 6px; }
-      .card { border: 1px solid color-mix(in srgb, CanvasText 16%, transparent); border-radius: 16px; padding: 20px; margin-top: 32px; }
-      footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid color-mix(in srgb, CanvasText 14%, transparent); color: GrayText; font-size: 15px; }
-      footer a { margin-right: 18px; }
+      * { box-sizing: border-box; }
+      body {
+        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        color: var(--ink);
+        background: Canvas;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      header.site { padding: 28px 0; border-bottom: 1px solid var(--line); }
+      header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.3px; color: var(--ink); }
+      nav a { margin-left: 22px; font-size: 16px; color: var(--muted); }
+      nav a:hover { color: var(--ink); text-decoration: none; }
+
+      .hero { padding: 84px 0 72px; }
+      .hero h1 {
+        font-size: clamp(38px, 7vw, 60px);
+        line-height: 1.05;
+        letter-spacing: -1.6px;
+        margin: 0 0 18px;
+        max-width: 16ch;
+      }
+      .hero p.lede { font-size: clamp(19px, 2.6vw, 23px); color: var(--muted); margin: 0 0 32px; max-width: 54ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+      .button {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 12px;
+        font-weight: 600;
+        background: var(--accent);
+        color: #fff;
+      }
+      .button:hover { background: #1569cc; text-decoration: none; }
+      .button.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+      section { padding: 56px 0; border-top: 1px solid var(--line); }
+      h2 { font-size: clamp(25px, 3.4vw, 31px); letter-spacing: -0.6px; margin: 0 0 10px; }
+      .section-lede { color: var(--muted); margin: 0 0 32px; max-width: 60ch; }
+
+      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+      .feature { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+      .feature h3 { margin: 0 0 6px; font-size: 18px; }
+      .feature p { margin: 0; color: var(--muted); font-size: 16px; }
+
+      .privacy { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
+      .privacy h2 { margin-top: 0; }
+      .privacy p { max-width: 62ch; }
+      .privacy p:last-child { margin-bottom: 0; }
+
+      .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+      .langs li { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 15px; color: var(--muted); }
+
+      footer.site { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--muted); font-size: 15px; }
+      footer.site a { color: var(--muted); margin-right: 20px; }
+      footer.site a:hover { color: var(--ink); }
+      footer .legal { margin-top: 18px; }
     </style>
   </head>
   <body>
+    <header class="site">
+      <div class="wrap">
+        <span class="wordmark">Scanature</span>
+        <nav>
+          <a href="support.html">Support</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+      </div>
+    </header>
+
     <main>
-      <h1>Scanature</h1>
-      <p class="intro">Scan it, fill it in, sign it, send it. Signed paperwork finished on your iPhone or iPad.</p>
-
-      <h2>What it does</h2>
-      <ul>
-        <li>Scans paper documents into PDFs with the camera</li>
-        <li>Starts you from a ready-made, fillable form &mdash; proof of delivery, vehicle inspection, expense receipt, damage report</li>
-        <li>Imports PDF, JPG and PNG files</li>
-        <li>Adds text, signatures, images, drawings and highlights</li>
-        <li>Reads QR codes and barcodes</li>
-        <li>Turns English scans into text you can select and search</li>
-        <li>Locks the library behind Face ID or your passcode</li>
-        <li>Reads in ten languages, including Arabic and Persian right to left</li>
-      </ul>
-
-      <div class="card">
-        <strong>Your documents stay on your device.</strong>
-        <p>There is no account and no sign-in. Documents, signatures and your profile are written to the app's own storage and sent nowhere, which is why the App Store privacy label says no data is collected.</p>
+      <div class="wrap hero">
+        <h1>Paperwork, finished where you stand.</h1>
+        <p class="lede">
+          Scan it, fill it in, sign it, send it — on an iPhone or iPad, in the
+          cab, on the doorstep or on site. Nothing is uploaded and nothing
+          needs a signal.
+        </p>
+        <div class="cta">
+          <a class="button" href="support.html">Get support</a>
+          <a class="button secondary" href="privacy.html">How your data is handled</a>
+        </div>
       </div>
 
-      <h2>Get in touch</h2>
-      <p>Questions, problems or feedback: <a href="mailto:support@scanature.com">support@scanature.com</a>.</p>
+      <section>
+        <div class="wrap">
+          <h2>Built for the document, not the photograph</h2>
+          <p class="section-lede">
+            Scanature's own scanner finds the page while you aim, tells you to
+            move closer or hold steady, and captures by itself the moment the
+            shot is right.
+          </p>
+          <div class="grid">
+            <div class="feature">
+              <h3>Scan</h3>
+              <p>Automatic capture, live guidance, flash, and four page filters. Add, reorder, recrop or rescan pages as you go.</p>
+            </div>
+            <div class="feature">
+              <h3>Sign</h3>
+              <p>Sign on the page with a finger or Apple Pencil. Your signature is saved for next time and stays sharp at any size.</p>
+            </div>
+            <div class="feature">
+              <h3>Start from a form</h3>
+              <p>Ten ready-made, fillable forms — proof of delivery, vehicle inspection, expense receipt, damage report and more.</p>
+            </div>
+            <div class="feature">
+              <h3>Edit</h3>
+              <p>Add text, images, drawings and highlights. Move and resize anything you place, and change it again later.</p>
+            </div>
+            <div class="feature">
+              <h3>Read</h3>
+              <p>Turn English scans into text you can select and search. Read QR codes and barcodes straight from the page.</p>
+            </div>
+            <div class="feature">
+              <h3>Finish</h3>
+              <p>Save the PDF or share it to Mail, Messages or Files without ever opening an editor. Scan, sign, sent, in one run.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <footer>
+      <section>
+        <div class="wrap">
+          <div class="privacy">
+            <h2>Your documents never leave your device</h2>
+            <p>
+              There is no account and no sign-in. Scans, signatures and your
+              profile are written to the app's own storage and sent nowhere.
+              Scanning, editing, signing and text recognition all run on the
+              device, which is why none of it needs a connection.
+            </p>
+            <p>
+              That is not a promise we ask you to take on trust: the App Store
+              privacy label for Scanature reads <strong>Data Not Collected</strong>,
+              and Apple holds us to it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>Reads in ten languages</h2>
+          <p class="section-lede">
+            The app and the forms it prints, with Arabic and Persian laid out
+            right to left.
+          </p>
+          <ul class="langs">
+            <li>English</li><li>Norsk</li><li>Español</li><li>Français</li>
+            <li>Deutsch</li><li>हिन्दी</li><li>日本語</li><li>中文</li>
+            <li>العربية</li><li>فارسی</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>Questions?</h2>
+          <p class="section-lede">
+            The support page has the common answers and a box to describe a
+            problem in. Privacy enquiries go to
+            <a href="mailto:privacy@scanature.com">privacy@scanature.com</a>.
+          </p>
+          <a class="button" href="support.html">Go to support</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
         <a href="support.html">Support</a>
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
-        <p>&copy; 2026 Scanature</p>
-      </footer>
-    </main>
+        <a href="mailto:support@scanature.com">support@scanature.com</a>
+        <p class="legal">&copy; 2026 Scanature. Made for iPhone and iPad.</p>
+      </div>
+    </footer>
   </body>
 </html>

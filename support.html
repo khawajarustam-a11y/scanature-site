@@ -57,19 +57,14 @@
       <div class="card">
         <strong>Tell us what happened</strong>
         <p class="note">
-          Fill this in and your email app opens with everything already in place.
-          Nothing is sent from this page and nothing is stored on it.
+          Your email app opens with your message, and with your device and app
+          version filled in for you. Nothing is sent from this page and nothing
+          is stored on it.
         </p>
         <form id="contact">
-          <label for="device">Device and iOS version <span class="opt">optional</span></label>
-          <input id="device" name="device" type="text" placeholder="iPhone 15 Pro, iOS 26.5" autocomplete="off">
-
-          <label for="version">App version <span class="opt">optional</span></label>
-          <input id="version" name="version" type="text" placeholder="1.0.0" autocomplete="off">
-
-          <label for="problem">What happened, and what did you expect?</label>
-          <textarea id="problem" name="problem" rows="6" required
-            placeholder="I signed a document, saved it, and the signature…"></textarea>
+          <label for="problem">What happened, and what did you expect instead?</label>
+          <textarea id="problem" name="problem" rows="7" required
+            placeholder="Describe the problem in your own words."></textarea>
 
           <button type="submit">Open my email app</button>
         </form>
@@ -81,14 +76,31 @@
       </div>
 
       <script>
+        // Asking people which iPhone they have is asking them to do the
+        // app's homework. The browser already knows the system, and the app
+        // passes its own version in the link, so the message carries both
+        // without anyone being made to look them up.
+        function systemFromUserAgent() {
+          var ua = navigator.userAgent || '';
+          var ios = ua.match(/(iPhone|iPad); CPU (?:iPhone )?OS (\d+[_\d]*)/);
+          if (ios) {
+            return ios[1] + ', iOS ' + ios[2].replace(/_/g, '.');
+          }
+          var mac = ua.match(/Mac OS X (\d+[_\d]*)/);
+          if (mac) {
+            return 'Mac, macOS ' + mac[1].replace(/_/g, '.');
+          }
+          return '';
+        }
+
         document.getElementById('contact').addEventListener('submit', function (event) {
           event.preventDefault();
-          var device = document.getElementById('device').value.trim();
-          var version = document.getElementById('version').value.trim();
           var problem = document.getElementById('problem').value.trim();
+          var system = systemFromUserAgent();
+          var version = new URLSearchParams(window.location.search).get('v') || '';
           var lines = [problem, '', '—'];
-          if (device) { lines.push('Device: ' + device); }
-          if (version) { lines.push('App version: ' + version); }
+          if (system) { lines.push('Device: ' + system); }
+          if (version) { lines.push('Scanature ' + version); }
           window.location.href =
             'mailto:support@scanature.com' +
             '?subject=' + encodeURIComponent('Scanature support') +
