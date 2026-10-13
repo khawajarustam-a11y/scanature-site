@@ -75,6 +75,26 @@
       .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
       .langs li { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 15px; color: var(--muted); }
 
+      .shots {
+        display: grid;
+        gap: 26px;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      }
+      .shots figure { margin: 0; }
+      .shots img {
+        width: 100%;
+        height: auto;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        display: block;
+      }
+      .shots figcaption { margin-top: 10px; color: var(--muted); font-size: 15px; }
+
+      .steps { margin: 0; padding-left: 22px; max-width: 64ch; }
+      .steps li { margin-bottom: 18px; }
+      .steps strong { display: block; }
+
       footer.site { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--muted); font-size: 15px; }
       footer.site a { color: var(--muted); margin-right: 20px; }
       footer.site a:hover { color: var(--ink); }
@@ -144,6 +164,74 @@
         </div>
       </section>
 
+
+      <section id="screens">
+        <div class="wrap">
+          <h2>What it looks like</h2>
+          <p class="section-lede">
+            Five screens, start to finish: pick what you came to do, choose a
+            form, fill it in, find it again, and the tools for everything else.
+          </p>
+          <div class="shots">
+            <figure>
+              <img src="images/1-home.png" width="410" height="891" loading="lazy"
+                   alt="The Scanature home screen, with Scan Document, Import File and Sign Document.">
+              <figcaption>Start with what you came to do.</figcaption>
+            </figure>
+            <figure>
+              <img src="images/2-templates.png" width="410" height="891" loading="lazy"
+                   alt="The template catalogue, listing ready-made forms.">
+              <figcaption>Ten forms, laid out and ready.</figcaption>
+            </figure>
+            <figure>
+              <img src="images/3-form.png" width="410" height="891" loading="lazy"
+                   alt="A form open for filling in, with fields and a signature box.">
+              <figcaption>Tap a field, fill it in, sign on the page.</figcaption>
+            </figure>
+            <figure>
+              <img src="images/4-documents.png" width="410" height="891" loading="lazy"
+                   alt="The document library, showing saved PDFs.">
+              <figcaption>Your library, on the device.</figcaption>
+            </figure>
+            <figure>
+              <img src="images/5-tools.png" width="410" height="891" loading="lazy"
+                   alt="Quick tools for merging, compressing and converting PDFs.">
+              <figcaption>Merge, compress, convert, fill and sign.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>How it works</h2>
+          <p class="section-lede">Four steps, one screen, under a minute.</p>
+          <ol class="steps">
+            <li>
+              <strong>Point the camera.</strong>
+              Scanature finds the page while you aim and captures by itself the
+              moment the shot is right. Or start from a form that is already
+              laid out, or import a PDF you were sent.
+            </li>
+            <li>
+              <strong>Fix anything that needs fixing.</strong>
+              Add pages, drag them into order, pull the corners to redo a crop,
+              or rescan the one that came out badly.
+            </li>
+            <li>
+              <strong>Fill it in and sign it.</strong>
+              Tap a field to type, tap a signature box to sign. Your signature
+              is saved for next time and can be moved or removed until you are
+              happy with it.
+            </li>
+            <li>
+              <strong>Send it.</strong>
+              Share straight to Mail, Messages or Files without opening an
+              editor, or keep it in the library.
+            </li>
+          </ol>
+        </div>
+      </section>
       <section>
         <div class="wrap">
           <div class="privacy">
