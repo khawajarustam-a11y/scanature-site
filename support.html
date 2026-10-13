@@ -19,6 +19,34 @@
       a { color: #1677e8; }
       .intro { color: GrayText; font-size: 19px; }
       .card { border: 1px solid color-mix(in srgb, CanvasText 16%, transparent); border-radius: 16px; padding: 20px; }
+      .note { color: GrayText; font-size: 15px; }
+      label { display: block; margin-top: 14px; font-weight: 600; font-size: 15px; }
+      .opt { font-weight: 400; color: GrayText; }
+      input, textarea {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 6px;
+        padding: 10px 12px;
+        font: inherit;
+        font-size: 16px;
+        color: CanvasText;
+        background: Canvas;
+        border: 1px solid color-mix(in srgb, CanvasText 28%, transparent);
+        border-radius: 10px;
+      }
+      textarea { resize: vertical; }
+      button {
+        margin-top: 18px;
+        padding: 12px 20px;
+        font: inherit;
+        font-weight: 600;
+        color: #fff;
+        background: #1677e8;
+        border: 0;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      button:hover { background: #1569cc; }
     </style>
   </head>
   <body>
@@ -27,10 +55,46 @@
       <p class="intro">Help with scanning, editing, signing, saving, and sharing PDF documents on iPhone and iPad.</p>
 
       <div class="card">
-        <strong>Contact support</strong>
-        <p>Email <a href="mailto:support@scanature.com">support@scanature.com</a>.</p>
-        <p>Please include your device model, iOS or iPadOS version, app version, and a short description of the problem. Do not email confidential documents.</p>
+        <strong>Tell us what happened</strong>
+        <p class="note">
+          Fill this in and your email app opens with everything already in place.
+          Nothing is sent from this page and nothing is stored on it.
+        </p>
+        <form id="contact">
+          <label for="device">Device and iOS version <span class="opt">optional</span></label>
+          <input id="device" name="device" type="text" placeholder="iPhone 15 Pro, iOS 26.5" autocomplete="off">
+
+          <label for="version">App version <span class="opt">optional</span></label>
+          <input id="version" name="version" type="text" placeholder="1.0.0" autocomplete="off">
+
+          <label for="problem">What happened, and what did you expect?</label>
+          <textarea id="problem" name="problem" rows="6" required
+            placeholder="I signed a document, saved it, and the signature…"></textarea>
+
+          <button type="submit">Open my email app</button>
+        </form>
+        <p class="note">
+          Prefer to write it yourself? Email
+          <a href="mailto:support@scanature.com">support@scanature.com</a>.
+          Please do not attach confidential documents.
+        </p>
       </div>
+
+      <script>
+        document.getElementById('contact').addEventListener('submit', function (event) {
+          event.preventDefault();
+          var device = document.getElementById('device').value.trim();
+          var version = document.getElementById('version').value.trim();
+          var problem = document.getElementById('problem').value.trim();
+          var lines = [problem, '', '—'];
+          if (device) { lines.push('Device: ' + device); }
+          if (version) { lines.push('App version: ' + version); }
+          window.location.href =
+            'mailto:support@scanature.com' +
+            '?subject=' + encodeURIComponent('Scanature support') +
+            '&body=' + encodeURIComponent(lines.join('\n'));
+        });
+      </script>
 
       <h2>Common questions</h2>
       <p><strong>Scanning:</strong> Allow camera access when prompted, place the complete document inside the scanner view, and hold the phone steady.</p>
