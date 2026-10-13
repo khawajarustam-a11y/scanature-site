@@ -75,6 +75,17 @@
       .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
       .langs li { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 15px; color: var(--muted); }
 
+      .tour { max-width: 340px; }
+      .tour video {
+        width: 100%;
+        height: auto;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: #000;
+        display: block;
+      }
+      .tour .note { margin-top: 10px; font-size: 15px; color: var(--muted); }
+
       .shots {
         display: grid;
         gap: 26px;
@@ -165,6 +176,28 @@
       </section>
 
 
+
+      <section id="tour">
+        <div class="wrap">
+          <h2>See it work</h2>
+          <p class="section-lede">
+            A minute through the app: what you start with, the forms, your
+            library, and where everything is kept.
+          </p>
+          <div class="tour">
+            <video controls playsinline preload="none"
+                   poster="images/1-home.png" width="444" height="960">
+              <source src="video/tour.mp4" type="video/mp4">
+              Your browser cannot play this video.
+              <a href="video/tour.mp4">Download it instead</a>.
+            </video>
+            <p class="note">
+              Narrated. <a href="video/tour-transcript.txt">Read the transcript</a>
+              if you would rather not watch.
+            </p>
+          </div>
+        </div>
+      </section>
       <section id="screens">
         <div class="wrap">
           <h2>What it looks like</h2>
