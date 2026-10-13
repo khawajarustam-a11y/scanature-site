@@ -1,13 +1,15 @@
-Scanature turns paper into signed PDFs, on your iPhone or iPad.
+[[slnc 700]] Scanature turns paper into signed PDFs, on your iPhone. [[slnc 900]]
 
-You start with what you came to do. Scan a document with the camera. Import a file you were sent. Or go straight to signing one.
+It has its own scanner, [[slnc 250]] built for paperwork rather than photographs. [[slnc 400]] It finds the page while you aim, [[slnc 250]] and takes the shot by itself the moment it is right. [[slnc 900]]
 
-The scanner is built for paperwork rather than photographs. It finds the page while you aim, tells you to move closer or hold steady, and takes the shot by itself the moment it is right.
+Already have a PDF? [[slnc 400]] Import it, [[slnc 250]] and sign it. [[slnc 400]] Your signature is saved, [[slnc 250]] so the next one takes seconds. [[slnc 900]]
 
-For the paperwork you fill in often, start from a form that is already laid out. Proof of delivery. Vehicle inspection. Expense receipts. Damage reports. Tap a field to fill it in, and sign on the page itself. Your signature is saved, so the next one takes seconds.
+The quick tools handle the everyday jobs. [[slnc 400]] Merge. [[slnc 300]] Compress. [[slnc 300]] Photos into a PDF. [[slnc 900]]
 
-Everything you keep is in your library, on the device, and you can lock it behind Face ID.
+And for the paperwork you fill in often, [[slnc 300]] there are ready made forms, [[slnc 250]] laid out and waiting. [[slnc 900]]
 
-And that is the part that matters most. There is no account, and nothing is uploaded. Your documents, your signatures and your details stay on your iPhone. It is why the App Store privacy label reads: data not collected.
+Everything you keep stays in your library, [[slnc 300]] on the device, [[slnc 300]] behind Face ID if you want it. [[slnc 900]]
 
-Scanature. Paperwork, finished where you stand.
+No account. [[slnc 400]] Nothing uploaded. [[slnc 500]] Which is why the App Store privacy label reads: [[slnc 300]] data not collected. [[slnc 1000]]
+
+Scanature. [[slnc 500]] Paperwork, finished where you stand.
