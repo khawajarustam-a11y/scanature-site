@@ -47,6 +47,10 @@
         cursor: pointer;
       }
       button:hover { background: #1569cc; }
+      button:disabled { opacity: .55; cursor: default; }
+      .status { margin-top: 12px; font-size: 15px; color: GrayText; min-height: 1.4em; }
+      .status.ok { color: #1a7f45; }
+      .status.bad { color: #b3261e; }
     </style>
   </head>
   <body>
@@ -57,16 +61,16 @@
       <div class="card">
         <strong>Tell us what happened</strong>
         <p class="note">
-          Your email app opens with your message, and with your device and app
-          version filled in for you. Nothing is sent from this page and nothing
-          is stored on it.
+          Your device and app version are filled in for you, so there is
+          nothing to look up. We reply to the address you write from.
         </p>
         <form id="contact">
           <label for="problem">What happened, and what did you expect instead?</label>
           <textarea id="problem" name="problem" rows="7" required
             placeholder="Describe the problem in your own words."></textarea>
 
-          <button type="submit">Open my email app</button>
+          <button type="submit">Send</button>
+          <p id="support-status" class="status" role="status" aria-live="polite"></p>
         </form>
         <p class="note">
           Prefer to write it yourself? Email
@@ -76,36 +80,102 @@
       </div>
 
       <script>
-        // Asking people which iPhone they have is asking them to do the
-        // app's homework. The browser already knows the system, and the app
-        // passes its own version in the link, so the message carries both
-        // without anyone being made to look them up.
+        // Paste the access key from web3forms.com here and the form sends for
+        // real: the message is delivered to support@scanature.com, and the page says it was
+        // sent. Until then it falls back to composing the mail in the
+        // visitor's own email app, which is the most a site with no server can
+        // honestly do.
+        //
+        // Turning this on means messages pass through Web3Forms before they
+        // reach the mailbox. The privacy policy has to say so — it does, under
+        // "Messages you send us" — and this does not affect the app's App
+        // Store privacy label, which covers the app and not this website.
+        var ACCESS_KEY = '';
+
         function systemFromUserAgent() {
           var ua = navigator.userAgent || '';
           var ios = ua.match(/(iPhone|iPad); CPU (?:iPhone )?OS (\d+[_\d]*)/);
-          if (ios) {
-            return ios[1] + ', iOS ' + ios[2].replace(/_/g, '.');
-          }
+          if (ios) { return ios[1] + ', iOS ' + ios[2].replace(/_/g, '.'); }
           var mac = ua.match(/Mac OS X (\d+[_\d]*)/);
-          if (mac) {
-            return 'Mac, macOS ' + mac[1].replace(/_/g, '.');
-          }
+          if (mac) { return 'Mac, macOS ' + mac[1].replace(/_/g, '.'); }
           return '';
         }
 
-        document.getElementById('contact').addEventListener('submit', function (event) {
-          event.preventDefault();
-          var problem = document.getElementById('problem').value.trim();
-          var system = systemFromUserAgent();
-          var version = new URLSearchParams(window.location.search).get('v') || '';
-          var lines = [problem, '', '—'];
-          if (system) { lines.push('Device: ' + system); }
-          if (version) { lines.push('Scanature ' + version); }
-          window.location.href =
-            'mailto:support@scanature.com' +
-            '?subject=' + encodeURIComponent('Scanature support') +
-            '&body=' + encodeURIComponent(lines.join('\n'));
-        });
+        (function () {
+          var form = document.getElementById('contact');
+          var field = document.getElementById('problem');
+          var status = document.getElementById('support-status');
+          var button = form.querySelector('button');
+
+          // A button marked Send that opens the mail app instead is a lie.
+          // Until the key is in place it says what it really does.
+          if (!ACCESS_KEY) {
+            button.textContent = 'Open my email app';
+            var blurb = form.parentNode.querySelector('.note');
+            if (blurb) {
+              blurb.textContent =
+                'Your email app opens with your message, and your device and ' +
+                'app version filled in for you. Nothing is sent from this page.';
+            }
+          }
+
+          function context() {
+            var system = systemFromUserAgent();
+            var version = new URLSearchParams(window.location.search).get('v') || '';
+            var lines = [];
+            if (system) { lines.push('Device: ' + system); }
+            if (version) { lines.push('Scanature ' + version); }
+            return lines.join('\n');
+          }
+
+          form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            var written = field.value.trim();
+            if (!written) { return; }
+
+            if (!ACCESS_KEY) {
+              var lines = [written, '', '\u2014', context()];
+              window.location.href =
+                'mailto:support@scanature.com?subject=' + encodeURIComponent('Scanature support') +
+                '&body=' + encodeURIComponent(lines.join('\n'));
+              return;
+            }
+
+            button.disabled = true;
+            status.textContent = 'Sending…';
+            status.className = 'status';
+            fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({
+                access_key: ACCESS_KEY,
+                subject: 'Scanature support',
+                from_name: 'Scanature website',
+                message: written,
+                context: context()
+              })
+            }).then(function (response) {
+              return response.json();
+            }).then(function (result) {
+              if (result.success) {
+                form.reset();
+                status.textContent = 'Sent. We read every message and reply to the ones that need one.';
+                status.className = 'status ok';
+              } else {
+                throw new Error(result.message || 'failed');
+              }
+            }).catch(function () {
+              // Never swallow it. Someone who typed out a problem and got
+              // silence assumes it arrived.
+              status.innerHTML =
+                'That did not send. Please email ' +
+                '<a href="mailto:support@scanature.com">support@scanature.com</a> instead.';
+              status.className = 'status bad';
+            }).then(function () {
+              button.disabled = false;
+            });
+          });
+        })();
       </script>
 
       <h2>Common questions</h2>
