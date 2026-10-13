@@ -18,6 +18,19 @@
       h2 { margin-top: 34px; font-size: 23px; }
       a { color: #1677e8; }
       .updated { color: GrayText; }
+      .note { color: GrayText; font-size: 15px; }
+      label { display: block; margin-top: 14px; font-weight: 600; font-size: 15px; }
+      textarea {
+        width: 100%; box-sizing: border-box; margin-top: 6px; padding: 10px 12px;
+        font: inherit; font-size: 16px; color: CanvasText; background: Canvas;
+        border: 1px solid color-mix(in srgb, CanvasText 28%, transparent);
+        border-radius: 10px; resize: vertical;
+      }
+      button {
+        margin-top: 18px; padding: 12px 20px; font: inherit; font-weight: 600;
+        color: #fff; background: #1677e8; border: 0; border-radius: 10px; cursor: pointer;
+      }
+      button:hover { background: #1569cc; }
     </style>
   </head>
   <body>
@@ -54,6 +67,48 @@
 
       <h2>Contact</h2>
       <p>For privacy questions or support, email <a href="mailto:privacy@scanature.com">privacy@scanature.com</a>.</p>
+
+      <div class="card" id="ask">
+        <strong>A question about privacy</strong>
+        <p class="note">
+          Your email app opens with your message and your device filled in for
+          you. Nothing is sent from this page and nothing is stored on it.
+        </p>
+        <form id="privacy-contact">
+          <label for="question">What would you like to know?</label>
+          <textarea id="question" name="question" rows="6" required
+            placeholder="Describe your question in your own words."></textarea>
+          <button type="submit">Open my email app</button>
+        </form>
+        <p class="note">
+          Prefer to write it yourself? Email
+          <a href="mailto:privacy@scanature.com">privacy@scanature.com</a>.
+        </p>
+      </div>
+
+      <script>
+        function systemFromUserAgent() {
+          var ua = navigator.userAgent || '';
+          var ios = ua.match(/(iPhone|iPad); CPU (?:iPhone )?OS (\d+[_\d]*)/);
+          if (ios) { return ios[1] + ', iOS ' + ios[2].replace(/_/g, '.'); }
+          var mac = ua.match(/Mac OS X (\d+[_\d]*)/);
+          if (mac) { return 'Mac, macOS ' + mac[1].replace(/_/g, '.'); }
+          return '';
+        }
+        document.getElementById('privacy-contact').addEventListener('submit', function (event) {
+          event.preventDefault();
+          var question = document.getElementById('question').value.trim();
+          var system = systemFromUserAgent();
+          var version = new URLSearchParams(window.location.search).get('v') || '';
+          var lines = [question, '', '\u2014'];
+          if (system) { lines.push('Device: ' + system); }
+          if (version) { lines.push('Scanature ' + version); }
+          window.location.href =
+            'mailto:privacy@scanature.com' +
+            '?subject=' + encodeURIComponent('Scanature privacy enquiry') +
+            '&body=' + encodeURIComponent(lines.join('\n'));
+        });
+      </script>
     </main>
   </body>
 </html>
