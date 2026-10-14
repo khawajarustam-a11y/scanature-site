@@ -62,16 +62,16 @@
         <strong>Tell us what happened</strong>
         <p class="note">
           Your device and app version are included automatically, so there is
-          nothing to look up.
+          nothing to look up. We reply to the address you give.
         </p>
         <form id="contact">
           <label for="problem">What happened, and what did you expect instead?</label>
           <textarea id="problem" name="problem" rows="7" required
             placeholder="Describe the problem in your own words."></textarea>
 
-          <label for="support-reply">Your email <span class="opt">so we can reply</span></label>
+          <label for="support-reply">Your email</label>
           <input id="support-reply" name="email" type="email" autocomplete="email"
-            placeholder="you@example.com" inputmode="email">
+            placeholder="you@example.com" inputmode="email" required>
 
           <button type="submit">Send</button>
           <p id="support-status" class="status" role="status" aria-live="polite"></p>
@@ -111,6 +111,11 @@
             var written = field.value.trim();
             var replyTo = (document.getElementById('support-reply').value || '').trim();
             if (!written) { return; }
+            if (!replyTo) {
+              status.textContent = 'Please add your email address so we can reply.';
+              status.className = 'status bad';
+              return;
+            }
 
             var system = systemFromUserAgent();
             var version = new URLSearchParams(window.location.search).get('v') || '';
@@ -126,8 +131,8 @@
                 _subject: 'Scanature support',
                 _template: 'table',
                 _captcha: 'false',
-                _replyto: replyTo || undefined,
-                email: replyTo || 'not given',
+                _replyto: replyTo,
+                email: replyTo,
                 message: written,
                 device: system || 'not detected',
                 app_version: version || 'sent from the website'
