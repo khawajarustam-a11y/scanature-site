@@ -129,6 +129,15 @@
             }).then(function (response) {
               return response.json().catch(function () { return {}; });
             }).then(function (result) {
+              // Keep the service's own words when they say what to do about
+              // it — "this form needs activation" is an instruction, and
+              // replacing it with "that did not send" throws the instruction
+              // away.
+              if (result && /activat/i.test(result.message || '')) {
+                var err = new Error(result.message);
+                err.explained = result.message;
+                throw err;
+              }
               if (result.success === true || result.success === 'true') {
                 form.reset();
                 status.textContent = 'Sent. We read every message and reply to the ones that need one.';
@@ -136,12 +145,13 @@
                 return;
               }
               throw new Error(result.message || 'failed');
-            }).catch(function () {
+            }).catch(function (error) {
               // Never silence. Someone who typed out a problem and saw nothing
               // assumes it arrived.
-              status.innerHTML =
-                'That did not send. Please email ' +
-                '<a href="mailto:support@scanature.com">support@scanature.com</a> instead.';
+              status.innerHTML = (error && error.explained)
+                ? error.explained
+                : 'That did not send. Please email ' +
+                  '<a href="mailto:support@scanature.com">support@scanature.com</a> instead.';
               status.className = 'status bad';
             }).then(function () {
               button.disabled = false;
