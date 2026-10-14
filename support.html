@@ -62,13 +62,16 @@
         <strong>Tell us what happened</strong>
         <p class="note">
           Your device and app version are included automatically, so there is
-          nothing to look up. Leave your email address in the message if you
-          would like a reply.
+          nothing to look up.
         </p>
         <form id="contact">
           <label for="problem">What happened, and what did you expect instead?</label>
           <textarea id="problem" name="problem" rows="7" required
             placeholder="Describe the problem in your own words."></textarea>
+
+          <label for="support-reply">Your email <span class="opt">so we can reply</span></label>
+          <input id="support-reply" name="email" type="email" autocomplete="email"
+            placeholder="you@example.com" inputmode="email">
 
           <button type="submit">Send</button>
           <p id="support-status" class="status" role="status" aria-live="polite"></p>
@@ -106,6 +109,7 @@
           form.addEventListener('submit', function (event) {
             event.preventDefault();
             var written = field.value.trim();
+            var replyTo = (document.getElementById('support-reply').value || '').trim();
             if (!written) { return; }
 
             var system = systemFromUserAgent();
@@ -122,6 +126,8 @@
                 _subject: 'Scanature support',
                 _template: 'table',
                 _captcha: 'false',
+                _replyto: replyTo || undefined,
+                email: replyTo || 'not given',
                 message: written,
                 device: system || 'not detected',
                 app_version: version || 'sent from the website'

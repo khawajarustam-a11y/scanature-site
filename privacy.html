@@ -19,6 +19,7 @@
       a { color: #1677e8; }
       .updated { color: GrayText; }
       .note { color: GrayText; font-size: 15px; }
+      .opt { font-weight: 400; color: GrayText; }
       label { display: block; margin-top: 14px; font-weight: 600; font-size: 15px; }
       textarea {
         width: 100%; box-sizing: border-box; margin-top: 6px; padding: 10px 12px;
@@ -93,6 +94,10 @@
           <label for="question">What would you like to know?</label>
           <textarea id="question" name="question" rows="6" required
             placeholder="Describe your question in your own words."></textarea>
+          <label for="privacy-reply">Your email <span class="opt">so we can reply</span></label>
+          <input id="privacy-reply" name="email" type="email" autocomplete="email"
+            placeholder="you@example.com" inputmode="email">
+
           <button type="submit">Send</button>
           <p id="privacy-status" class="status" role="status" aria-live="polite"></p>
         </form>
@@ -128,6 +133,7 @@
           form.addEventListener('submit', function (event) {
             event.preventDefault();
             var written = field.value.trim();
+            var replyTo = (document.getElementById('privacy-reply').value || '').trim();
             if (!written) { return; }
 
             var system = systemFromUserAgent();
@@ -144,6 +150,8 @@
                 _subject: 'Scanature privacy enquiry',
                 _template: 'table',
                 _captcha: 'false',
+                _replyto: replyTo || undefined,
+                email: replyTo || 'not given',
                 message: written,
                 device: system || 'not detected',
                 app_version: version || 'sent from the website'
