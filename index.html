@@ -75,16 +75,33 @@
       .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
       .langs li { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 15px; color: var(--muted); }
 
-      .tour { max-width: 340px; }
-      .tour video {
+      .tour-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+      .tour-card {
+        overflow: hidden;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: 0 18px 48px color-mix(in srgb, #1677e8 12%, transparent);
+      }
+      .tour-card video {
         width: 100%;
         height: auto;
-        border-radius: 18px;
-        border: 1px solid var(--line);
+        aspect-ratio: 16 / 9;
         background: #000;
         display: block;
       }
-      .tour .note { margin-top: 10px; font-size: 15px; color: var(--muted); }
+      .tour-copy { padding: 18px 20px 20px; }
+      .tour-copy h3 { margin: 0 0 5px; font-size: 19px; }
+      .tour-copy p { margin: 0; color: var(--muted); font-size: 15px; }
+      .tour-copy .note { margin-top: 10px; font-size: 14px; }
+
+      @media (max-width: 720px) {
+        .tour-grid { grid-template-columns: 1fr; }
+      }
 
       .shots {
         display: grid;
@@ -110,6 +127,10 @@
       footer.site a { color: var(--muted); margin-right: 20px; }
       footer.site a:hover { color: var(--ink); }
       footer .legal { margin-top: 18px; }
+      /* Safari on iPhone floats its toolbar over the bottom of the page, and
+         it lands on whatever is last — which on the support page is the Send
+         button. Leave it room. */
+      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </style>
   </head>
   <body>
@@ -142,7 +163,7 @@
         <div class="wrap">
           <h2>Built for the document, not the photograph</h2>
           <p class="section-lede">
-            Scanature's own scanner finds the page while you aim, tells you to
+            Scanature's built-in scanner finds the page while you aim, tells you to
             move closer or hold steady, and captures by itself the moment the
             shot is right.
           </p>
@@ -181,20 +202,82 @@
         <div class="wrap">
           <h2>See it work</h2>
           <p class="section-lede">
-            A minute through the app: what you start with, the forms, your
-            library, and where everything is kept.
+            Six short guides show the complete workflow, from scanning and
+            signing to templates and organizing the finished PDFs.
           </p>
-          <div class="tour">
-            <video controls playsinline preload="none"
-                   poster="images/1-home.png" width="884" height="1920">
-              <source src="video/tour.mp4" type="video/mp4">
-              Your browser cannot play this video.
-              <a href="video/tour.mp4">Download it instead</a>.
-            </video>
-            <p class="note">
-              Narrated. <a href="video/tour-transcript.txt">Read the transcript</a>
-              if you would rather not watch.
-            </p>
+          <div class="tour-grid">
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/scan-review-poster.jpg" width="1920" height="1080">
+                <source src="video/scan-review.mp4" type="video/mp4">
+                <a href="video/scan-review.mp4">Download the scan and review video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Scan and review</h3>
+                <p>Follow the live guidance, capture the page, and check the corrected result.</p>
+                <p class="note">15 seconds · Narrated · <a href="video/scan-review-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/crop-enhance-poster.jpg" width="1920" height="1080">
+                <source src="video/crop-enhance.mp4" type="video/mp4">
+                <a href="video/crop-enhance.mp4">Download the crop and enhance video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Crop and enhance</h3>
+                <p>Line up the four corners, then choose a clean document finish.</p>
+                <p class="note">14 seconds · Narrated · <a href="video/crop-enhance-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/sign-document-poster.jpg" width="1920" height="1080">
+                <source src="video/sign-document.mp4" type="video/mp4">
+                <a href="video/sign-document.mp4">Download the signing video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Sign on the page</h3>
+                <p>Use a saved signature, place it, and make it fit the document.</p>
+                <p class="note">12 seconds · Narrated · <a href="video/sign-document-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/share-save-poster.jpg" width="1920" height="1080">
+                <source src="video/share-save.mp4" type="video/mp4">
+                <a href="video/share-save.mp4">Download the share and save video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Share or save</h3>
+                <p>Send the completed PDF, or keep it in My Documents for later.</p>
+                <p class="note">12 seconds · Narrated · <a href="video/share-save-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/ready-made-forms-poster.jpg" width="1920" height="1080">
+                <source src="video/ready-made-forms.mp4" type="video/mp4">
+                <a href="video/ready-made-forms.mp4">Download the ready-made forms video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Start from a template</h3>
+                <p>Browse clean, fillable forms for everyday and business paperwork.</p>
+                <p class="note">Narrated · <a href="video/ready-made-forms-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
+            <article class="tour-card">
+              <video controls playsinline preload="metadata"
+                     poster="video/document-library-poster.jpg" width="1920" height="1080">
+                <source src="video/document-library.mp4" type="video/mp4">
+                <a href="video/document-library.mp4">Download the document library video</a>.
+              </video>
+              <div class="tour-copy">
+                <h3>Keep PDFs organized</h3>
+                <p>Filter and sort finished documents in a private on-device library.</p>
+                <p class="note">Narrated · <a href="video/document-library-transcript.txt">Transcript</a></p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -202,34 +285,34 @@
         <div class="wrap">
           <h2>What it looks like</h2>
           <p class="section-lede">
-            Five screens, start to finish: pick what you came to do, choose a
-            form, fill it in, find it again, and the tools for everything else.
+            Current screens from the real app, showing the complete path from
+            capture to a corrected, signed, organized document.
           </p>
           <div class="shots">
             <figure>
-              <img src="images/1-home.png" width="410" height="891" loading="lazy"
+              <img src="images/1-home.png" width="1320" height="2868" loading="lazy"
                    alt="The Scanature home screen, with Scan Document, Import File and Sign Document.">
               <figcaption>Start with what you came to do.</figcaption>
             </figure>
             <figure>
-              <img src="images/2-templates.png" width="410" height="891" loading="lazy"
-                   alt="The template catalogue, listing ready-made forms.">
-              <figcaption>Ten forms, laid out and ready.</figcaption>
+              <img src="images/2-scan.png" width="1179" height="2556" loading="lazy"
+                   alt="Scanature guiding the user while a document is framed in the camera.">
+              <figcaption>Simple guidance while the camera finds the page.</figcaption>
             </figure>
             <figure>
-              <img src="images/3-form.png" width="410" height="891" loading="lazy"
-                   alt="A form open for filling in, with fields and a signature box.">
-              <figcaption>Tap a field, fill it in, sign on the page.</figcaption>
+              <img src="images/3-crop.png" width="1179" height="2556" loading="lazy"
+                   alt="The Adjust Crop screen with four corner handles around a document.">
+              <figcaption>Correct an edge with four precise crop handles.</figcaption>
             </figure>
             <figure>
-              <img src="images/4-documents.png" width="410" height="891" loading="lazy"
-                   alt="The document library, showing saved PDFs.">
-              <figcaption>Your library, on the device.</figcaption>
+              <img src="images/4-sign.png" width="1179" height="2556" loading="lazy"
+                   alt="A signature placed on the signature line of a scanned document.">
+              <figcaption>Place and size a signature exactly where it belongs.</figcaption>
             </figure>
             <figure>
-              <img src="images/5-tools.png" width="410" height="891" loading="lazy"
-                   alt="Quick tools for merging, compressing and converting PDFs.">
-              <figcaption>Merge, compress, convert, fill and sign.</figcaption>
+              <img src="images/5-documents.png" width="1179" height="2556" loading="lazy"
+                   alt="My Documents showing organized scanned and edited PDFs.">
+              <figcaption>Keep every finished PDF organized on the device.</figcaption>
             </figure>
           </div>
         </div>

@@ -18,6 +18,10 @@
       h2 { margin-top: 34px; font-size: 23px; }
       a { color: #1677e8; }
       .updated { color: GrayText; }
+      /* Safari on iPhone floats its toolbar over the bottom of the page, and
+         it lands on whatever is last — which on the support page is the Send
+         button. Leave it room. */
+      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </style>
   </head>
   <body>

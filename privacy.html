@@ -36,6 +36,10 @@
       .status { margin-top: 12px; font-size: 15px; color: GrayText; min-height: 1.4em; }
       .status.ok { color: #1a7f45; }
       .status.bad { color: #b3261e; }
+      /* Safari on iPhone floats its toolbar over the bottom of the page, and
+         it lands on whatever is last — which on the support page is the Send
+         button. Leave it room. */
+      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </style>
   </head>
   <body>

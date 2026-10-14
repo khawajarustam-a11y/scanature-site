@@ -90,6 +90,10 @@
       footer.site { border-top: 1px solid var(--line); padding: 32px 0 52px; color: var(--muted); font-size: 15px; }
       footer.site a { color: var(--muted); margin-right: 20px; }
       footer.site a:hover { color: CanvasText; }
+      /* Safari on iPhone floats its toolbar over the bottom of the page, and
+         it lands on whatever is last — which on the support page is the Send
+         button. Leave it room. */
+      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
     </style>
   </head>
   <body>
