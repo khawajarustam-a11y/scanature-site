@@ -1,0 +1,1 @@
+Point the camera at a document. Scanature finds the page and guides you as you move. When the document is steady, it is ready to capture automatically. You can also use the shutter at any time, then review the corrected page.
