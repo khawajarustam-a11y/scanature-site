@@ -75,8 +75,8 @@
       <h2>Messages you send us</h2>
       <p>
         If you use the box below, or the one on the support page, your message
-        and the device details shown with it are passed to Web3Forms, which
-        delivers them to our mailbox, and are kept by them for up to 30 days.
+        and the device details sent with it are passed to FormSubmit, which
+        delivers them to our mailbox.
         Email us directly instead if you would rather not use it. This applies
         to these web pages only: the Scanature app itself sends nothing
         anywhere, which is why its App Store privacy label reads Data Not
@@ -86,7 +86,7 @@
       <div class="card" id="ask">
         <strong>A question about privacy</strong>
         <p class="note">
-          Your device is filled in for you. Privacy enquiries go to a
+          Your device is included automatically. Privacy enquiries go to a
           separate address from ordinary support.
         </p>
         <form id="privacy-contact">
@@ -103,17 +103,12 @@
       </div>
 
       <script>
-        // Paste the access key from web3forms.com here and the form sends for
-        // real: the message is delivered to privacy@scanature.com, and the page says it was
-        // sent. Until then it falls back to composing the mail in the
-        // visitor's own email app, which is the most a site with no server can
-        // honestly do.
-        //
-        // Turning this on means messages pass through Web3Forms before they
-        // reach the mailbox. The privacy policy has to say so — it does, under
-        // "Messages you send us" — and this does not affect the app's App
-        // Store privacy label, which covers the app and not this website.
-        var ACCESS_KEY = '';
+        // FormSubmit delivers to privacy@scanature.com. It needs no account and no key: the
+        // first message sent to an address triggers a confirmation email to
+        // that address, and clicking the link in it activates delivery from
+        // then on. Until that click, a send comes back as unactivated and the
+        // page says so rather than pretending it arrived.
+        var ENDPOINT = 'https://formsubmit.co/ajax/privacy@scanature.com';
 
         function systemFromUserAgent() {
           var ua = navigator.userAgent || '';
@@ -130,66 +125,42 @@
           var status = document.getElementById('privacy-status');
           var button = form.querySelector('button');
 
-          // A button marked Send that opens the mail app instead is a lie.
-          // Until the key is in place it says what it really does.
-          if (!ACCESS_KEY) {
-            button.textContent = 'Open my email app';
-            var blurb = form.parentNode.querySelector('.note');
-            if (blurb) {
-              blurb.textContent =
-                'Your email app opens with your message, and your device and ' +
-                'app version filled in for you. Nothing is sent from this page.';
-            }
-          }
-
-          function context() {
-            var system = systemFromUserAgent();
-            var version = new URLSearchParams(window.location.search).get('v') || '';
-            var lines = [];
-            if (system) { lines.push('Device: ' + system); }
-            if (version) { lines.push('Scanature ' + version); }
-            return lines.join('\n');
-          }
-
           form.addEventListener('submit', function (event) {
             event.preventDefault();
             var written = field.value.trim();
             if (!written) { return; }
 
-            if (!ACCESS_KEY) {
-              var lines = [written, '', '\u2014', context()];
-              window.location.href =
-                'mailto:privacy@scanature.com?subject=' + encodeURIComponent('Scanature privacy enquiry') +
-                '&body=' + encodeURIComponent(lines.join('\n'));
-              return;
-            }
+            var system = systemFromUserAgent();
+            var version = new URLSearchParams(window.location.search).get('v') || '';
 
             button.disabled = true;
             status.textContent = 'Sending…';
             status.className = 'status';
-            fetch('https://api.web3forms.com/submit', {
+
+            fetch(ENDPOINT, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
               body: JSON.stringify({
-                access_key: ACCESS_KEY,
-                subject: 'Scanature privacy enquiry',
-                from_name: 'Scanature website',
+                _subject: 'Scanature privacy enquiry',
+                _template: 'table',
+                _captcha: 'false',
                 message: written,
-                context: context()
+                device: system || 'not detected',
+                app_version: version || 'sent from the website'
               })
             }).then(function (response) {
-              return response.json();
+              return response.json().catch(function () { return {}; });
             }).then(function (result) {
-              if (result.success) {
+              if (result.success === true || result.success === 'true') {
                 form.reset();
-                status.textContent = 'Sent. We read every message and reply to the ones that need one.';
+                status.textContent = 'Sent. Privacy enquiries are answered by a person, not a form.';
                 status.className = 'status ok';
-              } else {
-                throw new Error(result.message || 'failed');
+                return;
               }
+              throw new Error(result.message || 'failed');
             }).catch(function () {
-              // Never swallow it. Someone who typed out a problem and got
-              // silence assumes it arrived.
+              // Never silence. Someone who typed out a problem and saw nothing
+              // assumes it arrived.
               status.innerHTML =
                 'That did not send. Please email ' +
                 '<a href="mailto:privacy@scanature.com">privacy@scanature.com</a> instead.';
