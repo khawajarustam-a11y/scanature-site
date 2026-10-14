@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Answers to the questions Scanature is asked most often: restoring a subscription, cancelling, where documents are stored, and working offline.">
+    <title>Scanature Help</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --accent: #0a66d6;
+        --muted: GrayText;
+        --line: color-mix(in srgb, CanvasText 13%, transparent);
+        --panel: color-mix(in srgb, CanvasText 4%, Canvas);
+      }
+      * { box-sizing: border-box; }
+      body {
+        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        color: CanvasText;
+        background: Canvas;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      header.site { padding: 26px 0; border-bottom: 1px solid var(--line); }
+      header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .wordmark { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; color: CanvasText; }
+      nav a { margin-left: 20px; font-size: 16px; color: var(--muted); }
+      nav a:hover { color: CanvasText; text-decoration: none; }
+
+      main { padding: 56px 0 72px; }
+      h1 { font-size: clamp(32px, 6vw, 42px); line-height: 1.1; letter-spacing: -1px; margin: 0 0 12px; }
+      .lede { color: var(--muted); font-size: 19px; margin: 0 0 40px; max-width: 46ch; }
+
+      /* One group, hairline separators — no cards, no coloured tiles. */
+      .faq { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--panel); }
+      details { border-bottom: 1px solid var(--line); }
+      details:last-child { border-bottom: 0; }
+      summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 17px 20px;
+        font-size: 17px;
+        font-weight: 500;
+        letter-spacing: -0.2px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      summary::-webkit-details-marker { display: none; }
+      summary::after {
+        content: "";
+        flex: none;
+        width: 9px;
+        height: 9px;
+        border-right: 2px solid color-mix(in srgb, CanvasText 42%, transparent);
+        border-bottom: 2px solid color-mix(in srgb, CanvasText 42%, transparent);
+        transform: rotate(45deg) translateY(-2px);
+        transition: transform .18s ease;
+      }
+      details[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+      summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+      details p {
+        margin: 0;
+        padding: 0 54px 19px 20px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.55;
+      }
+      details p + p { padding-top: 12px; }
+
+      .contact { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+      .contact h2 { font-size: 21px; letter-spacing: -0.4px; margin: 0 0 8px; }
+      .contact p { color: var(--muted); font-size: 16px; margin: 0 0 18px; max-width: 48ch; }
+      .button {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 11px;
+        font-weight: 600;
+        font-size: 16px;
+        background: var(--accent);
+        color: #fff;
+      }
+      .button:hover { background: #0852ae; text-decoration: none; }
+
+      footer.site { border-top: 1px solid var(--line); padding: 32px 0 52px; color: var(--muted); font-size: 15px; }
+      footer.site a { color: var(--muted); margin-right: 20px; }
+      footer.site a:hover { color: CanvasText; }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="wordmark" href="./">Scanature</a>
+        <nav>
+          <a href="support.html">Support</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <h1>Help</h1>
+        <p class="lede">Answers to the questions we are asked most often.</p>
+
+        <div class="faq">
+          <details open>
+            <summary>How do I restore my subscription on a new device?</summary>
+            <p>
+              Open Scanature Pro and tap Restore Purchases, signed in with the
+              Apple Account you subscribed with. A subscription belongs to that
+              account rather than to a device, so it moves with you to a new
+              iPhone or a fresh installation. If the subscription is already
+              active, the button confirms it and the screen stays as it is.
+            </p>
+          </details>
+
+          <details>
+            <summary>How do I change or cancel my subscription?</summary>
+            <p>
+              Apple manages subscriptions, so changes are made in your Apple
+              Account rather than in the app. Open Settings, tap your name, then
+              Subscriptions. You can move between the monthly and yearly plans,
+              or cancel. A cancelled subscription stays active until the period
+              you have paid for ends.
+            </p>
+          </details>
+
+          <details>
+            <summary>What is included in Scanature Pro?</summary>
+            <p>
+              Unlimited documents, every scan filter, text recognition and the
+              full set of PDF tools, with no ads and no watermarks. The first
+              three documents are free and need no subscription, so the app can
+              be judged before anything is paid for.
+            </p>
+          </details>
+
+          <details>
+            <summary>Where are my documents stored?</summary>
+            <p>
+              On your device only. There is no account and nothing is uploaded,
+              which also means no copy is held anywhere that could be restored
+              for you. Removing the app removes its documents, so anything worth
+              keeping should be shared to Files or iCloud Drive first.
+            </p>
+          </details>
+
+          <details>
+            <summary>Does Scanature work without an internet connection?</summary>
+            <p>
+              Yes. Scanning, editing, signing, text recognition and exporting all
+              run on the device. A connection is needed only to start or restore
+              a subscription, which Apple handles.
+            </p>
+          </details>
+
+          <details>
+            <summary>How is my personal data handled?</summary>
+            <p>
+              Scans, signatures and documents remain on your device. The app has
+              no account, no analytics and no server to send anything to, which
+              is why its App Store privacy label reads Data Not Collected.
+            </p>
+            <p>
+              Privacy enquiries go to
+              <a href="mailto:privacy@scanature.com">privacy@scanature.com</a>,
+              a separate address from ordinary support.
+            </p>
+          </details>
+
+          <details>
+            <summary>What am I agreeing to?</summary>
+            <p>
+              The <a href="terms.html">Terms of Use</a> cover what you may do
+              with the app, what you are responsible for, and how subscriptions
+              work. They are in the app as well, so you can read them without a
+              connection.
+            </p>
+          </details>
+        </div>
+
+        <div class="contact">
+          <h2>Still stuck?</h2>
+          <p>
+            Tell us what happened and we will reply. Your device and app version
+            are filled in for you, so there is nothing to look up.
+          </p>
+          <a class="button" href="support.html">Send a message</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="mailto:support@scanature.com">support@scanature.com</a>
+      </div>
+    </footer>
+  </body>
+</html>
