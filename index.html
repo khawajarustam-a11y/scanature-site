@@ -63,7 +63,7 @@
       @media (max-width: 560px) { nav a { margin-left: 14px; font-size: 14.5px; } }
 
       /* ---------- shared ---------- */
-      section { padding: 76px 0; }
+      section { padding: 72px 0; }
       section + section { border-top: 1px solid var(--line); }
       h2 { font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.8px; line-height: 1.15; margin: 0 0 12px; }
       .section-lede { color: var(--muted); margin: 0 0 40px; max-width: 58ch; font-size: 17.5px; }
@@ -226,7 +226,15 @@
       }
 
       /* ---------- steps ---------- */
-      .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      /* Four cards do not fit four columns at this width, so auto-fit picks
+         three and strands the fourth. Two by two divides evenly, and suits
+         steps whose text runs to three lines. */
+      .steps {
+        list-style: none; margin: 0; padding: 0;
+        display: grid; gap: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      @media (max-width: 680px) { .steps { grid-template-columns: 1fr; } }
       .steps li {
         background: var(--panel);
         border: 1px solid var(--line);
@@ -273,6 +281,15 @@
       }
 
       /* ---------- footer ---------- */
+      /* The last section was a heading, one line and a button adrift in
+         white before the footer. A tinted band gives the page an ending. */
+      .closing {
+        background: linear-gradient(170deg, #f4f9ff 0%, #eef4fd 100%);
+        border-top: 1px solid var(--line);
+      }
+      .closing .wrap { text-align: center; }
+      .closing .section-lede { margin-left: auto; margin-right: auto; margin-bottom: 28px; }
+
       footer.site {
         border-top: 1px solid var(--line);
         background: linear-gradient(180deg, #fbfdff 0%, #eef4fd 100%);
@@ -621,7 +638,7 @@
         </div>
       </section>
 
-      <section>
+      <section class="closing">
         <div class="wrap">
           <h2>Questions?</h2>
           <p class="section-lede">
