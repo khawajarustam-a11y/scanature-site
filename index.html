@@ -284,6 +284,44 @@
         padding: 8px 17px; font-size: 15px; color: var(--muted); background: #fff;
       }
 
+      /* ---------- phones ----------
+         The desktop scale is too large held in one hand: the headline, the
+         lede and two buttons filled the screen before any of the product
+         appeared. Everything here is the same content at a size that suits
+         the width. */
+      @media (max-width: 620px) {
+        body { font-size: 16px; }
+        .wrap { padding: 0 20px; }
+        section { padding: 48px 0; }
+        h2 { font-size: clamp(23px, 6.4vw, 28px); letter-spacing: -0.6px; }
+        .section-lede { font-size: 16px; margin-bottom: 28px; }
+
+        .hero .wrap { padding-top: 36px; padding-bottom: 44px; gap: 32px; }
+        .hero h1 { font-size: clamp(31px, 8.6vw, 38px); letter-spacing: -1.1px; max-width: 16ch; margin-bottom: 14px; }
+        .hero p.lede { font-size: 17px; margin-bottom: 26px; max-width: none; }
+        .hero-note { margin-top: 18px; font-size: 13.5px; }
+
+        /* Two buttons of different widths read as an accident. Full width
+           each, so they look chosen. */
+        .cta { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .button { text-align: center; padding: 14px 20px; font-size: 15.5px; }
+
+        .feature { padding: 22px 20px; }
+        .feature .icon { width: 38px; height: 38px; margin-bottom: 13px; }
+        .feature h3 { font-size: 17px; }
+        .feature p { font-size: 15px; }
+
+        .grid, .tour-grid { gap: 16px; }
+        .tour-copy { padding: 16px 18px 18px; }
+        .tour-lead { margin-bottom: 20px; }
+
+        .steps li { padding: 20px 18px; }
+        .privacy { padding: 28px 20px; border-radius: 20px; }
+        .badge { font-size: 13.5px; padding: 7px 14px; margin-bottom: 16px; }
+        .langs li { font-size: 14px; padding: 7px 14px; }
+        footer.site { padding: 36px 0 44px; }
+      }
+
       /* ---------- footer ---------- */
       /* The last section was a heading, one line and a button adrift in
          white before the footer. A tinted band gives the page an ending. */
