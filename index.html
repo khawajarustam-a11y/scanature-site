@@ -176,7 +176,11 @@
       .tour-lead .frame { border-radius: 22px; box-shadow: var(--shadow-lg); }
       video { width: 100%; height: auto; aspect-ratio: 16 / 9; display: block; background: #0e1420; }
       .tour-lead .tour-copy { padding: 18px 2px 0; }
-      .tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
+      /* Five cards never divide evenly into an auto-fit grid: the last row
+         is left hanging against an empty half. Centring the remainder is
+         what stops the gap reading as something missing. */
+      .tour-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
+      .tour-card { flex: 1 1 290px; max-width: 340px; }
       .tour-card {
         background: var(--panel);
         border: 1px solid var(--line);
@@ -193,22 +197,27 @@
       .tour-copy .note { margin-top: 10px; font-size: 13.5px; }
 
       /* ---------- screenshots ---------- */
+      /* A grid strands the last item when five do not divide into the column
+         count; a centred flow puts the remainder in the middle instead, at
+         every width. */
       .shots {
-        display: grid;
-        gap: 28px;
-        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
       }
-      .shots figure { margin: 0; }
+      .shots figure { flex: 0 1 182px; margin: 0; }
       .shots .phone { max-width: 100%; padding: 7px; border-radius: 34px; }
       .shots .phone img { border-radius: 27px; }
       .shots .phone::after { height: 17px; border-radius: 0 0 11px 11px; }
       .shots figcaption { margin-top: 16px; color: var(--muted); font-size: 14.5px; line-height: 1.5; text-align: center; }
       @media (max-width: 680px) {
         .shots {
-          display: flex;
-          gap: 20px;
+          flex-wrap: nowrap;
+          justify-content: flex-start;
           overflow-x: auto;
           scroll-snap-type: x mandatory;
+          gap: 20px;
           padding-bottom: 8px;
           margin-inline: -24px;
           padding-inline: 24px;
