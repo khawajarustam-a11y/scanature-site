@@ -9,134 +9,276 @@
     <meta property="og:description" content="Scan it, fill it in, sign it, send it. Everything stays on your device.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://scanature.com/">
+    <meta property="og:image" content="https://scanature.com/images/1-home.png">
     <title>Scanature — Scan &amp; Sign PDF</title>
     <style>
       :root {
         color-scheme: light;
         --accent: #1677e8;
+        --accent-deep: #0b53ab;
         --ink: #101828;
-        --muted: #667085;
-        --line: rgba(16, 24, 40, 0.12);
-        --panel: rgba(255, 255, 255, 0.82);
+        --muted: #5a6478;
+        --line: rgba(16, 24, 40, 0.10);
+        --line-strong: rgba(16, 24, 40, 0.16);
+        --panel: #ffffff;
+        --tint: #eef5ff;
+        --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05), 0 8px 24px rgba(16, 24, 40, 0.05);
+        --shadow-lg: 0 24px 70px rgba(11, 83, 171, 0.16);
+        --radius: 18px;
       }
       * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition: none !important; animation: none !important; }
+      }
       body {
-        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font: 17px/1.62 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
         margin: 0;
         color: var(--ink);
-        background: linear-gradient(145deg, #fbfdff 0%, #f1f7ff 55%, #f8f4ff 100%);
+        background: #fbfdff;
         -webkit-font-smoothing: antialiased;
+        /* Safari on iPhone floats its toolbar over the bottom of the page and
+           lands on whatever is last. Leave it room. */
+        padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
       }
-      .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
       a { color: var(--accent); text-decoration: none; }
       a:hover { text-decoration: underline; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
-      header.site { padding: 28px 0; border-bottom: 1px solid var(--line); }
-      header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-      .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.3px; color: var(--ink); }
-      nav a { margin-left: 22px; font-size: 16px; color: var(--muted); }
-      nav a:hover { color: var(--ink); text-decoration: none; }
-
-      .hero { padding: 84px 0 72px; }
-      .hero h1 {
-        font-size: clamp(38px, 7vw, 60px);
-        line-height: 1.05;
-        letter-spacing: -1.6px;
-        margin: 0 0 18px;
-        max-width: 16ch;
+      /* ---------- header ---------- */
+      header.site {
+        position: sticky; top: 0; z-index: 10;
+        padding: 16px 0;
+        background: rgba(251, 253, 255, 0.82);
+        backdrop-filter: saturate(180%) blur(14px);
+        border-bottom: 1px solid var(--line);
       }
-      .hero p.lede { font-size: clamp(19px, 2.6vw, 23px); color: var(--muted); margin: 0 0 32px; max-width: 54ch; }
-      .cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+      header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.4px; color: var(--ink); }
+      .wordmark:hover { text-decoration: none; }
+      nav a { margin-left: 22px; font-size: 15.5px; color: var(--muted); }
+      nav a:hover { color: var(--ink); text-decoration: none; }
+      @media (max-width: 560px) { nav a { margin-left: 14px; font-size: 14.5px; } }
+
+      /* ---------- shared ---------- */
+      section { padding: 76px 0; }
+      section + section { border-top: 1px solid var(--line); }
+      h2 { font-size: clamp(26px, 3.6vw, 34px); letter-spacing: -0.8px; line-height: 1.15; margin: 0 0 12px; }
+      .section-lede { color: var(--muted); margin: 0 0 40px; max-width: 58ch; font-size: 17.5px; }
       .button {
         display: inline-block;
-        padding: 13px 22px;
+        padding: 13px 24px;
         border-radius: 12px;
         font-weight: 600;
+        font-size: 16px;
         background: var(--accent);
         color: #fff;
+        box-shadow: 0 8px 20px rgba(22, 119, 232, 0.24);
+        transition: background .18s ease, transform .18s ease;
       }
-      .button:hover { background: #1569cc; text-decoration: none; }
-      .button.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-
-      section { padding: 56px 0; border-top: 1px solid var(--line); }
-      h2 { font-size: clamp(25px, 3.4vw, 31px); letter-spacing: -0.6px; margin: 0 0 10px; }
-      .section-lede { color: var(--muted); margin: 0 0 32px; max-width: 60ch; }
-
-      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-      .feature { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
-      .feature h3 { margin: 0 0 6px; font-size: 18px; }
-      .feature p { margin: 0; color: var(--muted); font-size: 16px; }
-
-      .privacy { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
-      .privacy h2 { margin-top: 0; }
-      .privacy p { max-width: 62ch; }
-      .privacy p:last-child { margin-bottom: 0; }
-
-      .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
-      .langs li { border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; font-size: 15px; color: var(--muted); }
-
-      .tour-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 22px;
+      .button:hover { background: var(--accent-deep); text-decoration: none; transform: translateY(-1px); }
+      .button.secondary {
+        background: #fff; color: var(--ink);
+        border: 1px solid var(--line-strong); box-shadow: var(--shadow-sm);
       }
-      .tour-card {
+      .button.secondary:hover { background: var(--tint); }
+
+      /* ---------- the phone ---------- */
+      .phone {
+        position: relative;
+        width: 100%;
+        max-width: 268px;
+        margin: 0 auto;
+        border-radius: 42px;
+        padding: 9px;
+        background: linear-gradient(170deg, #e7edf6 0%, #cfd9e8 50%, #e9eef7 100%);
+        box-shadow: var(--shadow-lg), 0 0 0 1px rgba(16, 24, 40, 0.08);
+      }
+      .phone img {
+        display: block; width: 100%; height: auto;
+        border-radius: 34px;
+        background: var(--tint);
+      }
+      .phone::after {
+        content: "";
+        position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+        width: 34%; height: 22px;
+        background: #0e1420;
+        border-radius: 0 0 14px 14px;
+      }
+
+      /* ---------- hero ---------- */
+      .hero {
+        position: relative;
         overflow: hidden;
+        background:
+          radial-gradient(60% 70% at 78% 18%, rgba(22, 119, 232, 0.16) 0%, rgba(22, 119, 232, 0) 70%),
+          linear-gradient(170deg, #fbfdff 0%, #eef5ff 60%, #f7f3ff 100%);
+        border-bottom: 1px solid var(--line);
+        padding: 0;
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 48px;
+        align-items: center;
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 6.2vw, 58px);
+        line-height: 1.04;
+        letter-spacing: -1.8px;
+        margin: 0 0 20px;
+        max-width: 14ch;
+      }
+      .hero p.lede { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); margin: 0 0 32px; max-width: 46ch; }
+      .cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+      .hero-shot { position: relative; }
+      .hero-shot .phone { max-width: 290px; }
+      .hero-note { margin: 22px 0 0; font-size: 14.5px; color: var(--muted); }
+      @media (max-width: 860px) {
+        .hero .wrap { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; padding-bottom: 56px; }
+        .hero h1 { max-width: 18ch; }
+        .hero-shot .phone { max-width: 236px; }
+      }
+
+      /* ---------- features ---------- */
+      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+      .feature {
         background: var(--panel);
         border: 1px solid var(--line);
-        border-radius: 22px;
-        box-shadow: 0 18px 48px color-mix(in srgb, #1677e8 12%, transparent);
+        border-radius: var(--radius);
+        padding: 26px 24px;
+        box-shadow: var(--shadow-sm);
+        transition: transform .18s ease, box-shadow .18s ease;
       }
-      .tour-card video {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-        background: #edf4ff;
-        display: block;
+      .feature:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(16,24,40,.05), 0 16px 36px rgba(16,24,40,.08); }
+      .feature .icon {
+        width: 42px; height: 42px; border-radius: 12px;
+        background: var(--tint);
+        display: flex; align-items: center; justify-content: center;
+        margin-bottom: 16px;
       }
+      .feature h3 { margin: 0 0 7px; font-size: 18.5px; letter-spacing: -0.3px; }
+      .feature p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+
+      /* ---------- videos ---------- */
+      .tour-lead { margin-bottom: 28px; }
+      .tour-lead .frame, .tour-card .frame {
+        background: #0e1420;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+      }
+      .tour-lead .frame { border-radius: 22px; box-shadow: var(--shadow-lg); }
+      video { width: 100%; height: auto; aspect-ratio: 16 / 9; display: block; background: #0e1420; }
+      .tour-lead .tour-copy { padding: 18px 2px 0; }
+      .tour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
+      .tour-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        transition: transform .18s ease, box-shadow .18s ease;
+      }
+      .tour-card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(16,24,40,.05), 0 16px 36px rgba(16,24,40,.08); }
+      .tour-card .frame { border: 0; border-radius: 0; }
       .tour-copy { padding: 18px 20px 20px; }
-      .tour-copy h3 { margin: 0 0 5px; font-size: 19px; }
+      .tour-copy h3 { margin: 0 0 5px; font-size: 18px; letter-spacing: -0.3px; }
       .tour-copy p { margin: 0; color: var(--muted); font-size: 15px; }
-      .tour-copy .note { margin-top: 10px; font-size: 14px; }
+      .tour-copy .note { margin-top: 10px; font-size: 13.5px; }
 
-      @media (max-width: 720px) {
-        .tour-grid { grid-template-columns: 1fr; }
-      }
-
+      /* ---------- screenshots ---------- */
       .shots {
         display: grid;
-        gap: 26px;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 28px;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       }
       .shots figure { margin: 0; }
-      .shots img {
-        width: 100%;
-        height: auto;
-        border-radius: 18px;
-        border: 1px solid var(--line);
-        background: var(--panel);
-        display: block;
+      .shots .phone { max-width: 100%; padding: 7px; border-radius: 34px; }
+      .shots .phone img { border-radius: 27px; }
+      .shots .phone::after { height: 17px; border-radius: 0 0 11px 11px; }
+      .shots figcaption { margin-top: 16px; color: var(--muted); font-size: 14.5px; line-height: 1.5; text-align: center; }
+      @media (max-width: 680px) {
+        .shots {
+          display: flex;
+          gap: 20px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          padding-bottom: 8px;
+          margin-inline: -24px;
+          padding-inline: 24px;
+        }
+        .shots figure { flex: 0 0 62%; scroll-snap-align: center; }
       }
-      .shots figcaption { margin-top: 10px; color: var(--muted); font-size: 15px; }
 
-      .steps { margin: 0; padding-left: 22px; max-width: 64ch; }
-      .steps li { margin-bottom: 18px; }
-      .steps strong { display: block; }
+      /* ---------- steps ---------- */
+      .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .steps li {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 24px 22px;
+        box-shadow: var(--shadow-sm);
+      }
+      .steps .n {
+        width: 30px; height: 30px; border-radius: 50%;
+        background: var(--accent); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14.5px; font-weight: 700;
+        margin-bottom: 14px;
+      }
+      .steps strong { display: block; margin-bottom: 6px; font-size: 16.5px; letter-spacing: -0.2px; }
+      .steps li p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
 
-      footer.site { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--muted); font-size: 15px; }
-      footer.site a { color: var(--muted); margin-right: 20px; }
+      /* ---------- privacy ---------- */
+      .privacy {
+        background: linear-gradient(165deg, #ffffff 0%, #f3f8ff 100%);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 44px 40px;
+        box-shadow: var(--shadow-sm);
+      }
+      .privacy h2 { margin-top: 0; }
+      .privacy p { max-width: 62ch; color: var(--muted); }
+      .privacy p:last-child { margin-bottom: 0; }
+      .privacy strong { color: var(--ink); }
+      .badge {
+        display: inline-flex; align-items: center; gap: 9px;
+        background: var(--tint); color: var(--accent-deep);
+        border-radius: 999px; padding: 8px 16px;
+        font-size: 14.5px; font-weight: 600;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 560px) { .privacy { padding: 30px 22px; } }
+
+      /* ---------- languages ---------- */
+      .langs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+      .langs li {
+        border: 1px solid var(--line-strong); border-radius: 999px;
+        padding: 8px 17px; font-size: 15px; color: var(--muted); background: #fff;
+      }
+
+      /* ---------- footer ---------- */
+      footer.site {
+        border-top: 1px solid var(--line);
+        background: linear-gradient(180deg, #fbfdff 0%, #eef4fd 100%);
+        padding: 44px 0 56px;
+        color: var(--muted); font-size: 15px;
+      }
+      footer.site a { color: var(--muted); margin-right: 22px; }
       footer.site a:hover { color: var(--ink); }
-      footer .legal { margin-top: 18px; }
-      /* Safari on iPhone floats its toolbar over the bottom of the page, and
-         it lands on whatever is last — which on the support page is the Send
-         button. Leave it room. */
-      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+      footer .legal { margin-top: 20px; font-size: 14px; }
     </style>
   </head>
   <body>
     <header class="site">
       <div class="wrap">
-        <span class="wordmark">Scanature</span>
+        <a class="wordmark" href="./">Scanature</a>
         <nav>
           <a href="help.html">Help</a>
           <a href="support.html">Support</a>
@@ -147,18 +289,29 @@
     </header>
 
     <main>
-      <div class="wrap hero">
-        <h1>Paperwork, finished where you stand.</h1>
-        <p class="lede">
-          Scan it, fill it in, sign it, send it — on an iPhone or iPad, in the
-          cab, on the doorstep or on site. Nothing is uploaded and nothing
-          needs a signal.
-        </p>
-        <div class="cta">
-          <a class="button" href="support.html">Get support</a>
-          <a class="button secondary" href="privacy.html">How your data is handled</a>
+      <section class="hero">
+        <div class="wrap">
+          <div class="hero-copy">
+            <h1>Paperwork, finished where you stand.</h1>
+            <p class="lede">
+              Scan it, fill it in, sign it, send it — on an iPhone or iPad, in the
+              cab, on the doorstep or on site. Nothing is uploaded and nothing
+              needs a signal.
+            </p>
+            <div class="cta">
+              <a class="button" href="support.html">Get support</a>
+              <a class="button secondary" href="privacy.html">How your data is handled</a>
+            </div>
+            <p class="hero-note">No account. No sign-in. Works offline.</p>
+          </div>
+          <div class="hero-shot">
+            <div class="phone">
+              <img src="images/1-home.png" width="1320" height="2868"
+                   alt="The Scanature home screen, with Scan Document, Import File and Sign Document.">
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
       <section>
         <div class="wrap">
@@ -170,34 +323,66 @@
           </p>
           <div class="grid">
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 8V5.5A2.5 2.5 0 015.5 3H8M16 3h2.5A2.5 2.5 0 0121 5.5V8M21 16v2.5a2.5 2.5 0 01-2.5 2.5H16M8 21H5.5A2.5 2.5 0 013 18.5V16" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round"/>
+                  <path d="M7 12h10" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+              </div>
               <h3>Scan</h3>
               <p>Automatic capture, live guidance, flash, and four page filters. Add, reorder, recrop or rescan pages as you go.</p>
             </div>
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 17.3c2.8.7 4.1-4.8 6-4.8 1.6 0 1.2 3.9 2.9 3.9 2 0 2.6-7.5 4.3-7.5 1.2 0 1.5 2.9 3.6 2.9" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
               <h3>Sign</h3>
               <p>Sign on the page with a finger or Apple Pencil. Your signature is saved for next time and stays sharp at any size.</p>
             </div>
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <rect x="4" y="3" width="16" height="18" rx="2.4" stroke="#1677e8" stroke-width="1.9"/>
+                  <path d="M8 8h8M8 12h8M8 16h4" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+              </div>
               <h3>Start from a form</h3>
               <p>Ten ready-made, fillable forms — proof of delivery, vehicle inspection, expense receipt, damage report and more.</p>
             </div>
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M16.5 3.5a2.1 2.1 0 013 3L8 18l-4 1 1-4 11.5-11.5z" stroke="#1677e8" stroke-width="1.9" stroke-linejoin="round"/>
+                </svg>
+              </div>
               <h3>Edit</h3>
               <p>Add text, images, drawings and highlights. Move and resize anything you place, and change it again later.</p>
             </div>
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#1677e8" stroke-width="1.9"/>
+                  <path d="M16.5 16.5L21 21" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+              </div>
               <h3>Read</h3>
               <p>Turn English scans into text you can select and search. Read QR codes and barcodes straight from the page.</p>
             </div>
             <div class="feature">
+              <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 16V4m0 0L8 8m4-4l4 4" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M4 15v3.5A2.5 2.5 0 006.5 21h11a2.5 2.5 0 002.5-2.5V15" stroke="#1677e8" stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+              </div>
               <h3>Finish</h3>
               <p>Save the PDF or share it to Mail, Messages or Files without ever opening an editor. Scan, sign, sent, in one run.</p>
             </div>
           </div>
         </div>
       </section>
-
-
 
       <section id="tour">
         <div class="wrap">
@@ -206,25 +391,31 @@
             Six short guides show the complete workflow, from scanning and
             signing to templates and organizing the finished PDFs.
           </p>
-          <div class="tour-grid">
-            <article class="tour-card">
+
+          <article class="tour-lead">
+            <div class="frame">
               <video controls playsinline preload="metadata"
                      poster="video/scan-review-poster.jpg" width="1920" height="1080">
                 <source src="video/scan-review.mp4" type="video/mp4">
                 <a href="video/scan-review.mp4">Download the scan and review video</a>.
               </video>
-              <div class="tour-copy">
-                <h3>Scan and review</h3>
-                <p>Follow the live guidance, capture the page, and check the corrected result.</p>
-                <p class="note">15 seconds · Narrated · <a href="video/scan-review-transcript.txt">Transcript</a></p>
-              </div>
-            </article>
+            </div>
+            <div class="tour-copy">
+              <h3>Scan and review</h3>
+              <p>Follow the live guidance, capture the page, and check the corrected result.</p>
+              <p class="note">15 seconds · Narrated · <a href="video/scan-review-transcript.txt">Transcript</a></p>
+            </div>
+          </article>
+
+          <div class="tour-grid">
             <article class="tour-card">
-              <video controls playsinline preload="metadata"
-                     poster="video/crop-enhance-poster.jpg" width="1920" height="1080">
-                <source src="video/crop-enhance.mp4" type="video/mp4">
-                <a href="video/crop-enhance.mp4">Download the crop and enhance video</a>.
-              </video>
+              <div class="frame">
+                <video controls playsinline preload="metadata"
+                       poster="video/crop-enhance-poster.jpg" width="1920" height="1080">
+                  <source src="video/crop-enhance.mp4" type="video/mp4">
+                  <a href="video/crop-enhance.mp4">Download the crop and enhance video</a>.
+                </video>
+              </div>
               <div class="tour-copy">
                 <h3>Crop and enhance</h3>
                 <p>Line up the four corners, then choose a clean document finish.</p>
@@ -232,11 +423,13 @@
               </div>
             </article>
             <article class="tour-card">
-              <video controls playsinline preload="metadata"
-                     poster="video/sign-document-poster.jpg" width="1920" height="1080">
-                <source src="video/sign-document.mp4" type="video/mp4">
-                <a href="video/sign-document.mp4">Download the signing video</a>.
-              </video>
+              <div class="frame">
+                <video controls playsinline preload="metadata"
+                       poster="video/sign-document-poster.jpg" width="1920" height="1080">
+                  <source src="video/sign-document.mp4" type="video/mp4">
+                  <a href="video/sign-document.mp4">Download the signing video</a>.
+                </video>
+              </div>
               <div class="tour-copy">
                 <h3>Sign on the page</h3>
                 <p>Use a saved signature, place it, and make it fit the document.</p>
@@ -244,23 +437,27 @@
               </div>
             </article>
             <article class="tour-card">
-              <video controls playsinline preload="metadata"
-                     poster="video/share-save-poster.jpg" width="1920" height="1080">
-                <source src="video/share-save.mp4" type="video/mp4">
-                <a href="video/share-save.mp4">Download the share and save video</a>.
-              </video>
+              <div class="frame">
+                <video controls playsinline preload="metadata"
+                       poster="video/share-save-poster.jpg" width="1920" height="1080">
+                  <source src="video/share-save.mp4" type="video/mp4">
+                  <a href="video/share-save.mp4">Download the share and save video</a>.
+                </video>
+              </div>
               <div class="tour-copy">
                 <h3>Share or save</h3>
                 <p>Send the completed PDF, or keep it in My Documents for later.</p>
-                <p class="note">12 seconds · Narrated · <a href="video/share-save-transcript.txt">Transcript</a></p>
+                <p class="note">13 seconds · Narrated · <a href="video/share-save-transcript.txt">Transcript</a></p>
               </div>
             </article>
             <article class="tour-card">
-              <video controls playsinline preload="metadata"
-                     poster="video/ready-made-forms-poster.jpg" width="1920" height="1080">
-                <source src="video/ready-made-forms.mp4" type="video/mp4">
-                <a href="video/ready-made-forms.mp4">Download the ready-made forms video</a>.
-              </video>
+              <div class="frame">
+                <video controls playsinline preload="metadata"
+                       poster="video/ready-made-forms-poster.jpg" width="1920" height="1080">
+                  <source src="video/ready-made-forms.mp4" type="video/mp4">
+                  <a href="video/ready-made-forms.mp4">Download the ready-made forms video</a>.
+                </video>
+              </div>
               <div class="tour-copy">
                 <h3>Start from a template</h3>
                 <p>Browse clean, fillable forms for everyday and business paperwork.</p>
@@ -268,11 +465,13 @@
               </div>
             </article>
             <article class="tour-card">
-              <video controls playsinline preload="metadata"
-                     poster="video/document-library-poster.jpg" width="1920" height="1080">
-                <source src="video/document-library.mp4" type="video/mp4">
-                <a href="video/document-library.mp4">Download the document library video</a>.
-              </video>
+              <div class="frame">
+                <video controls playsinline preload="metadata"
+                       poster="video/document-library-poster.jpg" width="1920" height="1080">
+                  <source src="video/document-library.mp4" type="video/mp4">
+                  <a href="video/document-library.mp4">Download the document library video</a>.
+                </video>
+              </div>
               <div class="tour-copy">
                 <h3>Keep PDFs organized</h3>
                 <p>Filter and sort finished documents in a private on-device library.</p>
@@ -282,6 +481,7 @@
           </div>
         </div>
       </section>
+
       <section id="screens">
         <div class="wrap">
           <h2>What it looks like</h2>
@@ -291,28 +491,38 @@
           </p>
           <div class="shots">
             <figure>
-              <img src="images/1-home.png" width="1320" height="2868" loading="lazy"
-                   alt="The Scanature home screen, with Scan Document, Import File and Sign Document.">
+              <div class="phone">
+                <img src="images/1-home.png" width="1320" height="2868" loading="lazy"
+                     alt="The Scanature home screen, with Scan Document, Import File and Sign Document.">
+              </div>
               <figcaption>Start with what you came to do.</figcaption>
             </figure>
             <figure>
-              <img src="images/2-scan.png" width="1206" height="2622" loading="lazy"
-                   alt="Scanature guiding the user while a document is framed in the camera.">
+              <div class="phone">
+                <img src="images/2-scan.png" width="1206" height="2622" loading="lazy"
+                     alt="Scanature guiding the user while a document is framed in the camera.">
+              </div>
               <figcaption>Simple guidance while the camera finds the page.</figcaption>
             </figure>
             <figure>
-              <img src="images/3-crop.png" width="1206" height="2622" loading="lazy"
-                   alt="The Adjust Crop screen with four corner handles around a document.">
+              <div class="phone">
+                <img src="images/3-crop.png" width="1206" height="2622" loading="lazy"
+                     alt="The Adjust Crop screen with four corner handles around a document.">
+              </div>
               <figcaption>Correct an edge with four precise crop handles.</figcaption>
             </figure>
             <figure>
-              <img src="images/4-sign.png" width="1206" height="2622" loading="lazy"
-                   alt="A signature placed on the signature line of a scanned document.">
+              <div class="phone">
+                <img src="images/4-sign.png" width="1206" height="2622" loading="lazy"
+                     alt="A signature placed on the signature line of a scanned document.">
+              </div>
               <figcaption>Place and size a signature exactly where it belongs.</figcaption>
             </figure>
             <figure>
-              <img src="images/5-documents.png" width="1206" height="2622" loading="lazy"
-                   alt="My Documents showing organized scanned and edited PDFs.">
+              <div class="phone">
+                <img src="images/5-documents.png" width="1206" height="2622" loading="lazy"
+                     alt="My Documents showing organized scanned and edited PDFs.">
+              </div>
               <figcaption>Keep every finished PDF organized on the device.</figcaption>
             </figure>
           </div>
@@ -325,33 +535,52 @@
           <p class="section-lede">Four steps, one screen, under a minute.</p>
           <ol class="steps">
             <li>
+              <div class="n" aria-hidden="true">1</div>
               <strong>Point the camera.</strong>
-              Scanature finds the page while you aim and captures by itself the
-              moment the shot is right. Or start from a form that is already
-              laid out, or import a PDF you were sent.
+              <p>
+                Scanature finds the page while you aim and captures by itself the
+                moment the shot is right. Or start from a form that is already
+                laid out, or import a PDF you were sent.
+              </p>
             </li>
             <li>
+              <div class="n" aria-hidden="true">2</div>
               <strong>Fix anything that needs fixing.</strong>
-              Add pages, drag them into order, pull the corners to redo a crop,
-              or rescan the one that came out badly.
+              <p>
+                Add pages, drag them into order, pull the corners to redo a crop,
+                or rescan the one that came out badly.
+              </p>
             </li>
             <li>
+              <div class="n" aria-hidden="true">3</div>
               <strong>Fill it in and sign it.</strong>
-              Tap a field to type, tap a signature box to sign. Your signature
-              is saved for next time and can be moved or removed until you are
-              happy with it.
+              <p>
+                Tap a field to type, tap a signature box to sign. Your signature
+                is saved for next time and can be moved or removed until you are
+                happy with it.
+              </p>
             </li>
             <li>
+              <div class="n" aria-hidden="true">4</div>
               <strong>Send it.</strong>
-              Share straight to Mail, Messages or Files without opening an
-              editor, or keep it in the library.
+              <p>
+                Share straight to Mail, Messages or Files without opening an
+                editor, or keep it in the library.
+              </p>
             </li>
           </ol>
         </div>
       </section>
+
       <section>
         <div class="wrap">
           <div class="privacy">
+            <span class="badge">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M10 2.6l5.6 2.1v4.6c0 3.4-2.3 6.4-5.6 7.7-3.3-1.3-5.6-4.3-5.6-7.7V4.7L10 2.6z" stroke="#0b53ab" stroke-width="1.7" stroke-linejoin="round"/>
+              </svg>
+              Data Not Collected
+            </span>
             <h2>Your documents never leave your device</h2>
             <p>
               There is no account and no sign-in. Scans, signatures and your
