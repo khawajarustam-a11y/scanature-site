@@ -179,8 +179,12 @@
       /* Five cards never divide evenly into an auto-fit grid: the last row
          is left hanging against an empty half. Centring the remainder is
          what stops the gap reading as something missing. */
-      .tour-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
-      .tour-card { flex: 1 1 290px; max-width: 340px; }
+      /* Centring the remainder still leaves a symmetrical hole beside it,
+         which reads as a card that failed to load. Without a width cap the
+         cards on the last row simply grow to fill it, so there is no hole at
+         any window size. */
+      .tour-grid { display: flex; flex-wrap: wrap; gap: 24px; }
+      .tour-card { flex: 1 1 290px; }
       .tour-card {
         background: var(--panel);
         border: 1px solid var(--line);
