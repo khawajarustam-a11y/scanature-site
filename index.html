@@ -172,6 +172,8 @@
       }
       .feature h3 { margin: 0 0 7px; font-size: 18.5px; letter-spacing: -0.3px; }
       .feature p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+      .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      @media (max-width: 680px) { .why-grid { grid-template-columns: 1fr; } }
 
       /* ---------- videos ---------- */
       .tour-lead { margin-bottom: 28px; }
@@ -469,7 +471,7 @@
             A calmer way to finish the paperwork in front of you — from the first
             scan to the PDF you are ready to send.
           </p>
-          <div class="grid">
+          <div class="grid why-grid">
             <div class="feature">
               <div class="icon" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
