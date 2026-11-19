@@ -3,97 +3,37 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#07090f">
     <meta name="description" content="Answers to the questions Scanature is asked most often: restoring a subscription, cancelling, where documents are stored, and working offline.">
     <title>Scanature Help</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-      :root {
-        color-scheme: light dark;
-        --accent: #0a66d6;
-        --muted: GrayText;
-        --line: color-mix(in srgb, CanvasText 13%, transparent);
-        --panel: color-mix(in srgb, CanvasText 4%, Canvas);
-      }
-      * { box-sizing: border-box; }
-      body {
-        font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        margin: 0;
-        color: CanvasText;
-        background: Canvas;
-        -webkit-font-smoothing: antialiased;
-      }
-      .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px; }
-      a { color: var(--accent); text-decoration: none; }
-      a:hover { text-decoration: underline; }
-
-      header.site { padding: 26px 0; border-bottom: 1px solid var(--line); }
-      header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-      .wordmark { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; color: CanvasText; }
-      nav a { margin-left: 20px; font-size: 16px; color: var(--muted); }
-      nav a:hover { color: CanvasText; text-decoration: none; }
-
-      main { padding: 56px 0 72px; }
-      h1 { font-size: clamp(32px, 6vw, 42px); line-height: 1.1; letter-spacing: -1px; margin: 0 0 12px; }
-      .lede { color: var(--muted); font-size: 19px; margin: 0 0 40px; max-width: 46ch; }
-
-      /* One group, hairline separators — no cards, no coloured tiles. */
-      .faq { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--panel); }
+      .faq { border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+             background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.015) 42%), var(--panel); }
       details { border-bottom: 1px solid var(--line); }
       details:last-child { border-bottom: 0; }
       summary {
-        cursor: pointer;
-        list-style: none;
-        padding: 17px 20px;
-        font-size: 17px;
-        font-weight: 500;
-        letter-spacing: -0.2px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
+        cursor: pointer; list-style: none; padding: 19px 22px;
+        font-size: 17px; font-weight: 600; letter-spacing: -0.2px; color: #fff;
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
       }
       summary::-webkit-details-marker { display: none; }
       summary::after {
-        content: "";
-        flex: none;
-        width: 9px;
-        height: 9px;
-        border-right: 2px solid color-mix(in srgb, CanvasText 42%, transparent);
-        border-bottom: 2px solid color-mix(in srgb, CanvasText 42%, transparent);
-        transform: rotate(45deg) translateY(-2px);
-        transition: transform .18s ease;
+        content: ""; flex: none; width: 9px; height: 9px;
+        border-right: 2px solid rgba(255, 255, 255, 0.45);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.45);
+        transform: rotate(45deg) translateY(-2px); transition: transform .18s ease;
       }
       details[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
       summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
-      details p {
-        margin: 0;
-        padding: 0 54px 19px 20px;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.55;
-      }
+      details p { margin: 0; padding: 0 56px 20px 22px; color: var(--muted); font-size: 16px; line-height: 1.55; }
       details p + p { padding-top: 12px; }
-
-      .contact { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
-      .contact h2 { font-size: 21px; letter-spacing: -0.4px; margin: 0 0 8px; }
-      .contact p { color: var(--muted); font-size: 16px; margin: 0 0 18px; max-width: 48ch; }
+      .contact { margin-top: 48px; padding-top: 30px; border-top: 1px solid var(--line); }
       .button {
-        display: inline-block;
-        padding: 12px 20px;
-        border-radius: 11px;
-        font-weight: 600;
-        font-size: 16px;
-        background: var(--accent);
-        color: #fff;
+        display: inline-block; padding: 13px 22px; border-radius: 12px;
+        font-weight: 600; font-size: 16px; background: var(--accent); color: #06101f;
       }
-      .button:hover { background: #0852ae; text-decoration: none; }
-
-      footer.site { border-top: 1px solid var(--line); padding: 32px 0 52px; color: var(--muted); font-size: 15px; }
-      footer.site a { color: var(--muted); margin-right: 20px; }
-      footer.site a:hover { color: CanvasText; }
-      /* Safari on iPhone floats its toolbar over the bottom of the page, and
-         it lands on whatever is last — which on the support page is the Send
-         button. Leave it room. */
-      body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+      .button:hover { background: var(--accent-soft); text-decoration: none; }
     </style>
   </head>
   <body>

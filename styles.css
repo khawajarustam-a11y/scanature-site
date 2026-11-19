@@ -1,0 +1,110 @@
+/* Scanature — the dark skin shared by every page but the home page, which
+   carries its own because of the hero. Keep the two in step: the tokens here
+   are the same ones index.html declares. */
+:root {
+  color-scheme: dark;
+  --accent: #4d9bff;
+  --accent-soft: #8ab8ff;
+  --ink: #f2f6fd;
+  --muted: #9aa7bf;
+  --dim: #76829a;
+  --base: #07090f;
+  --panel: #10141f;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.16);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+body {
+  font: 17px/1.62 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  color: var(--ink);
+  background: var(--base);
+  -webkit-font-smoothing: antialiased;
+}
+/* A very fine grain over everything. Flat dark backgrounds band on cheap
+   screens; grain hides it and reads as texture rather than noise. */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Safari on iPhone floats its toolbar over the bottom of the page and lands on
+   whatever is last — on the support page, the Send button. Leave it room, but
+   only where that toolbar exists: on a desktop it is just an empty screen of
+   black under the footer. */
+@media (max-width: 820px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+header.site {
+  position: sticky; top: 0; z-index: 20;
+  padding: 15px 0;
+  background: rgba(7, 9, 15, 0.72);
+  backdrop-filter: saturate(170%) blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; color: #fff; }
+.wordmark:hover { text-decoration: none; }
+nav a { margin-left: 24px; font-size: 15.5px; color: var(--muted); }
+nav a:hover { color: #fff; text-decoration: none; }
+.nav-get { color: var(--accent) !important; font-weight: 600; }
+@media (max-width: 620px) { nav a { margin-left: 15px; font-size: 14.5px; } }
+
+main { position: relative; z-index: 1; }
+main .wrap { max-width: 760px; padding-top: 62px; padding-bottom: 76px; }
+h1 { font-size: clamp(34px, 5.4vw, 50px); line-height: 1.06; letter-spacing: -1.8px; margin: 0 0 14px; color: #fff; }
+h2 { margin: 44px 0 10px; font-size: clamp(21px, 2.6vw, 26px); letter-spacing: -0.6px; color: #fff; }
+h3 { color: #fff; }
+p { color: var(--muted); }
+.intro, .lede { color: var(--muted); font-size: 19px; margin: 0 0 28px; }
+.updated, .note { color: var(--dim); font-size: 15px; }
+strong { color: #fff; }
+
+.card {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 42%),
+    var(--panel);
+  border-radius: 18px; padding: 24px;
+}
+
+label { display: block; margin-top: 16px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.opt { font-weight: 400; color: var(--dim); }
+input, textarea {
+  width: 100%; box-sizing: border-box; margin-top: 7px; padding: 12px 14px;
+  font: inherit; font-size: 16px; color: var(--ink);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+}
+input::placeholder, textarea::placeholder { color: var(--dim); }
+input:focus, textarea:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.06); }
+textarea { resize: vertical; }
+form input[type="email"] { display: block; width: 100%; min-width: 0; }
+button {
+  margin-top: 20px; padding: 13px 22px; font: inherit; font-weight: 600;
+  color: #06101f; background: var(--accent); border: 0; border-radius: 12px; cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+}
+button:hover { background: var(--accent-soft); transform: translateY(-1px); }
+button:disabled { opacity: .5; cursor: default; transform: none; }
+.status { margin-top: 14px; font-size: 15px; color: var(--muted); min-height: 1.4em; }
+.status.ok { color: #5fd08a; }
+.status.bad { color: #ff8b80; }
+
+footer.site { border-top: 1px solid var(--line); padding: 40px 0 60px; color: var(--dim); font-size: 15px; }
+footer.site a { color: var(--muted); margin-right: 22px; }
+footer.site a:hover { color: #fff; }
+footer .legal { margin-top: 22px; font-size: 14px; }
